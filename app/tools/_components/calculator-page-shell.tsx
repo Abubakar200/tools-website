@@ -51,6 +51,7 @@ export type CalculatorResult = {
     highlight?: boolean;
   }[];
   note?: string;
+  action?:  ReactNode;
 };
 
 export default function CalculatorPageShell({
@@ -166,6 +167,11 @@ export default function CalculatorPageShell({
               ))}
             </div>
             {result.note && <p className="mt-6 text-sm leading-6 text-white/65">{result.note}</p>}
+            {result.action && (
+              <div className="mt-5 flex justify-center">
+                {result.action}
+              </div>
+            )}
           </div>
         </section>
       )}
