@@ -9,6 +9,7 @@ import GravelCalculatorForm, {
   type GravelAreaUnit,
   type GravelDepthUnit,
 } from "./gravel-calculator-form";
+import DownloadPdfButton from "@/app/components/calculator/DownloadPdfButton";
 
 const pageConfig: CalculatorPageConfig = {
   title: "Gravel Calculator",
@@ -335,6 +336,90 @@ export default function GravelCalculatorPage() {
 
         note:
           "These results are estimates. Actual gravel requirements can vary because of uneven ground, settling, gravel type, stone size, moisture, and installation conditions.",
+        action: (
+          <DownloadPdfButton
+            data={{
+              title: "Gravel Calculator",
+              inputs: [
+                {
+                  label: "Area measurement unit",
+                  value: unit === "ft" ? "Feet" : "Meters",
+                },
+                { label: "Area length", value: areaLength, detail: unit },
+                { label: "Area width", value: areaWidth, detail: unit },
+                {
+                  label: "Gravel depth",
+                  value: depth,
+                  detail: depthUnit,
+                },
+                { label: "Waste allowance", value: waste, detail: "%" },
+              ],
+              results: [
+                {
+                  label: "Coverage area",
+                  value: result.area.toFixed(2),
+                  detail: unit === "ft" ? "square feet" : "square meters",
+                },
+                {
+                  label: "Base volume",
+                  value: result.baseVolume.toFixed(2),
+                  detail: volumeUnit,
+                },
+                {
+                  label: "Recommended quantity",
+                  value: result.volumeWithWaste.toFixed(2),
+                  detail: `${volumeUnit} including ${waste}% waste`,
+                },
+              ],
+              tutorial: {
+                title: "How to Calculate Gravel Requirements",
+                description:
+                  "Calculate the coverage area, convert the gravel depth to match the area unit, calculate the volume, and add an allowance for waste.",
+                steps: [
+                  {
+                    title: "Measure the area length",
+                    description:
+                      "Measure the longest distance across the area where the gravel will be installed.",
+                  },
+                  {
+                    title: "Measure the area width",
+                    description:
+                      "Measure across the area at the points where gravel will be installed, using the same unit as the length.",
+                  },
+                  {
+                    title: "Choose the gravel depth",
+                    description:
+                      "Enter the required depth in inches or centimeters. The appropriate depth depends on the project and existing surface.",
+                  },
+                  {
+                    title: "Add waste",
+                    description:
+                      "Add an allowance for uneven ground, settling, measurement differences, and material lost during handling.",
+                  },
+                ],
+              },
+              formula: {
+                title: "Gravel Calculator Formula",
+                rows: [
+                  { title: "Area", formula: "Length × Width" },
+                  {
+                    title: "Convert depth",
+                    formula: "Inches ÷ 12 to feet; centimeters ÷ 100 to meters",
+                  },
+                  {
+                    title: "Volume",
+                    formula:
+                      "Area × Depth; convert cubic feet ÷ 27 to cubic yards",
+                  },
+                  {
+                    title: "Volume with waste",
+                    formula: "Base Volume × (1 + Waste % ÷ 100)",
+                  },
+                ],
+              },
+            }}
+          />
+        ),
       }
     : null;
 

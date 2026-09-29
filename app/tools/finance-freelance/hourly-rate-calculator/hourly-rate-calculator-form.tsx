@@ -5,7 +5,6 @@ import {
   CalculatorFormActions,
 } from "@/app/tools/_components/calculator-form-controls";
 import MonthlyToHourlyMini from "./monthly-to-yearly-mini";
-import DownloadPdfButton from "@/app/components/calculator/DownloadPdfButton";
 export default function HourlyRateCalculatorForm({
   annualIncome,
   onAnnualIncomeChange,
@@ -28,12 +27,10 @@ export default function HourlyRateCalculatorForm({
   onReset: () => void;
 }) {
   function scrollToMonthlyCalculator() {
-    document
-      .getElementById("monthly-yearly-calculator")
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+    document.getElementById("monthly-yearly-calculator")?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   }
 
   return (
@@ -54,8 +51,8 @@ export default function HourlyRateCalculatorForm({
             onClick={scrollToMonthlyCalculator}
             className="mt-2 text-sm font-semibold text-[#363199] underline underline-offset-4 transition hover:opacity-80 dark:text-[#E8E085]"
           >
-            Don't know your yearly salary? Click here to calculate it from
-            your monthly salary.
+            Don't know your yearly salary? Click here to calculate it from your
+            monthly salary.
           </button>
         </div>
 

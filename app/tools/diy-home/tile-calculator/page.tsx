@@ -6,7 +6,7 @@ import CalculatorPageShell, {
   type CalculatorPageConfig,
 } from "@/app/tools/_components/calculator-page-shell";
 import TileCalculatorForm, { type TileUnit } from "./tile-calculator-form";
-
+import DownloadPdfButton from "@/app/components/calculator/DownloadPdfButton";
 const pageConfig: CalculatorPageConfig = {
   title: "Tile Calculator",
   description:
@@ -195,25 +195,155 @@ export default function TileCalculatorPage() {
   }
 
   const calculatorResult = result
-    ? {
-        title: "Your tile requirement",
-        metrics: [
-          {
-            label: "Room area",
-            value: result.roomArea.toFixed(2),
-            detail: `square ${unit === "ft" ? "feet" : "meters"}`,
-          },
-          { label: "Without waste", value: result.tilesNeeded, detail: "tiles" },
-          {
-            label: "Recommended quantity",
-            value: result.tilesWithWaste,
-            detail: `tiles including ${waste}% waste`,
-            highlight: true,
-          },
-        ],
-        note: "These results are estimates. Always consider your tile layout, cuts, pattern matching, and the condition of the installation area before purchasing materials.",
-      }
-    : null;
+  ? {
+      title: "Your tile requirement",
+      metrics: [
+        {
+          label: "Room area",
+          value: result.roomArea.toFixed(2),
+          detail: `square ${unit === "ft" ? "feet" : "meters"}`,
+        },
+        {
+          label: "Without waste",
+          value: result.tilesNeeded,
+          detail: "tiles",
+        },
+        {
+          label: "Recommended quantity",
+          value: result.tilesWithWaste,
+          detail: `tiles including ${waste}% waste`,
+          highlight: true,
+        },
+      ],
+      note:
+        "These results are estimates. Always consider your tile layout, cuts, pattern matching, and the condition of the installation area before purchasing materials.",
+
+      action: (
+        <DownloadPdfButton
+          data={{
+            title: "Tile Calculator",
+
+            inputs: [
+              {
+                label: "Measurement unit",
+                value: unit === "ft" ? "Feet" : "Meters",
+              },
+
+              {
+                label: "Room length",
+                value: roomLength,
+                detail: unit,
+              },
+
+              {
+                label: "Room width",
+                value: roomWidth,
+                detail: unit,
+              },
+
+              {
+                label: "Tile length",
+                value: tileLength,
+                detail: unit,
+              },
+
+              {
+                label: "Tile width",
+                value: tileWidth,
+                detail: unit,
+              },
+
+              {
+                label: "Waste allowance",
+                value: waste,
+                detail: "%",
+              },
+            ],
+
+            results: [
+              {
+                label: "Room area",
+                value: result.roomArea.toFixed(2),
+                detail: `square ${unit === "ft" ? "feet" : "meters"}`,
+              },
+
+              {
+                label: "Tiles needed without waste",
+                value: result.tilesNeeded,
+                detail: "tiles",
+              },
+
+              {
+                label: "Recommended quantity",
+                value: result.tilesWithWaste,
+                detail: `tiles including ${waste}% waste`,
+              },
+            ],
+
+            tutorial: {
+              title: "How to Calculate Tile Requirements",
+
+              description:
+                "Calculate the room area, calculate the area of one tile, divide the room area by the tile area, and then add an allowance for waste.",
+
+              steps: [
+                {
+                  title: "Measure the room length",
+                  description:
+                    "Measure the distance from one wall to the opposite wall and enter the room length.",
+                },
+
+                {
+                  title: "Measure the room width",
+                  description:
+                    "Measure the distance between the other two walls and enter the room width.",
+                },
+
+                {
+                  title: "Measure one tile",
+                  description:
+                    "Measure the tile length and width using the same unit as the room measurements.",
+                },
+
+                {
+                  title: "Add waste",
+                  description:
+                    "Add extra tiles for cuts, breakage, corners, and other installation waste.",
+                },
+              ],
+            },
+
+            formula: {
+              title: "Tile Calculator Formula",
+
+              rows: [
+                {
+                  title: "Room area",
+                  formula: "Room Length × Room Width",
+                },
+
+                {
+                  title: "Tile area",
+                  formula: "Tile Length × Tile Width",
+                },
+
+                {
+                  title: "Tiles needed",
+                  formula: "Room Area ÷ Tile Area",
+                },
+
+                {
+                  title: "Tiles with waste",
+                  formula:
+                    "Tiles Needed × (1 + Waste % ÷ 100)",
+                },
+              ],
+            },
+          }}
+        />
+      ),
+    }
+  : null;
 
   return (
     <CalculatorPageShell config={pageConfig} result={calculatorResult}>

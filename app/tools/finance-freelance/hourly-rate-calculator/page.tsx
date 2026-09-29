@@ -48,9 +48,7 @@ const pageConfig: CalculatorPageConfig = {
           "Enter the amount you earn during a full year before dividing it into hourly earnings. Use the same currency throughout the calculation.",
         visual: (
           <div className="mt-5 rounded-2xl bg-[#f7f7fb] p-5 dark:bg-white/5">
-            <p className="text-sm font-semibold">
-              Example annual income
-            </p>
+            <p className="text-sm font-semibold">Example annual income</p>
 
             <p className="mt-2 text-3xl font-extrabold text-[#363199]">
               60,000
@@ -71,9 +69,7 @@ const pageConfig: CalculatorPageConfig = {
           <div className="mt-5 rounded-2xl bg-[#f7f7fb] p-5 dark:bg-white/5">
             <div className="flex items-center justify-center">
               <div className="rounded-2xl border-2 border-[#363199] px-8 py-5">
-                <p className="text-center text-3xl font-extrabold">
-                  40
-                </p>
+                <p className="text-center text-3xl font-extrabold">40</p>
                 <p className="mt-1 text-center text-xs text-gray-500 dark:text-white/50">
                   hours / week
                 </p>
@@ -91,10 +87,7 @@ const pageConfig: CalculatorPageConfig = {
           <div className="mt-5 rounded-2xl bg-[#f7f7fb] p-5 dark:bg-white/5">
             <div className="mx-auto grid max-w-xs grid-cols-4 gap-2">
               {Array.from({ length: 12 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="h-8 rounded-lg bg-[#363199]/10"
-                />
+                <div key={index} className="h-8 rounded-lg bg-[#363199]/10" />
               ))}
             </div>
 
@@ -111,17 +104,11 @@ const pageConfig: CalculatorPageConfig = {
           "The calculator divides your annual income by your estimated annual working hours to determine the equivalent hourly rate.",
         visual: (
           <div className="mt-5 rounded-2xl bg-[#E8E085] p-5 text-[#030164]">
-            <p className="text-sm font-semibold">
-              Example calculation
-            </p>
+            <p className="text-sm font-semibold">Example calculation</p>
 
-            <p className="mt-2 text-3xl font-extrabold">
-              60,000 ÷ 2,080
-            </p>
+            <p className="mt-2 text-3xl font-extrabold">60,000 ÷ 2,080</p>
 
-            <p className="mt-1 text-xs opacity-70">
-              = 28.85 per hour
-            </p>
+            <p className="mt-1 text-xs opacity-70">= 28.85 per hour</p>
           </div>
         ),
       },
@@ -222,9 +209,7 @@ export default function HourlyRateCalculatorPage() {
     annualHours: number;
   } | null>(null);
 
-  function calculateHourlyRate(
-    event: React.FormEvent<HTMLFormElement>
-  ) {
+  function calculateHourlyRate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
 
@@ -271,12 +256,10 @@ export default function HourlyRateCalculatorPage() {
     });
 
     setTimeout(() => {
-      document
-        .getElementById("calculator-result")
-        ?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
+      document.getElementById("calculator-result")?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }, 50);
   }
 
@@ -288,151 +271,143 @@ export default function HourlyRateCalculatorPage() {
     setError("");
   }
 
- const calculatorResult = result
-  ? {
-      title: "Your hourly rate",
+  const calculatorResult = result
+    ? {
+        title: "Your hourly rate",
 
-      metrics: [
-        {
-          label: "Hourly rate",
-          value: result.hourlyRate.toFixed(2),
-          detail: "per hour",
-          highlight: true,
-        },
-        {
-          label: "Weekly income",
-          value: result.weeklyIncome.toFixed(2),
-          detail: "per week",
-        },
-        {
-          label: "Monthly income",
-          value: result.monthlyIncome.toFixed(2),
-          detail: "average per month",
-        },
-        {
-          label: "Annual working hours",
-          value: result.annualHours.toFixed(0),
-          detail: "hours per year",
-        },
-      ],
+        metrics: [
+          {
+            label: "Hourly rate",
+            value: result.hourlyRate.toFixed(2),
+            detail: "per hour",
+            highlight: true,
+          },
+          {
+            label: "Weekly income",
+            value: result.weeklyIncome.toFixed(2),
+            detail: "per week",
+          },
+          {
+            label: "Monthly income",
+            value: result.monthlyIncome.toFixed(2),
+            detail: "average per month",
+          },
+          {
+            label: "Annual working hours",
+            value: result.annualHours.toFixed(0),
+            detail: "hours per year",
+          },
+        ],
 
-      note:
-        "This is an estimated gross hourly equivalent based on the income and working schedule you entered. Taxes, benefits, bonuses, deductions, and business expenses are not included.",
+        note: "This is an estimated gross hourly equivalent based on the income and working schedule you entered. Taxes, benefits, bonuses, deductions, and business expenses are not included.",
 
-      action: (
-        <DownloadPdfButton
-          data={{
-            title: "Hourly Rate Calculator",
+        action: (
+          <DownloadPdfButton
+            data={{
+              title: "Hourly Rate Calculator",
 
-            inputs: [
-              {
-                label: "Annual income",
-                value: annualIncome,
-              },
-              {
-                label: "Hours worked per week",
-                value: hoursPerWeek,
-                detail: "hours",
-              },
-              {
-                label: "Weeks worked per year",
-                value: weeksPerYear,
-                detail: "weeks",
-              },
-            ],
-
-            results: [
-              {
-                label: "Hourly rate",
-                value: result.hourlyRate.toFixed(2),
-                detail: "per hour",
-              },
-              {
-                label: "Weekly income",
-                value: result.weeklyIncome.toFixed(2),
-                detail: "per week",
-              },
-              {
-                label: "Monthly income",
-                value: result.monthlyIncome.toFixed(2),
-                detail: "per month",
-              },
-              {
-                label: "Annual working hours",
-                value: result.annualHours.toFixed(0),
-                detail: "hours",
-              },
-            ],
-
-            tutorial: {
-              title: "How to Calculate an Hourly Rate",
-              description:
-                "Your hourly rate can be estimated by dividing annual income by total annual working hours.",
-
-              steps: [
+              inputs: [
                 {
-                  title: "Enter your annual income",
-                  description:
-                    "Enter the total income you receive during one year.",
+                  label: "Annual income",
+                  value: annualIncome,
                 },
                 {
-                  title: "Enter weekly working hours",
-                  description:
-                    "Enter the number of hours you normally work each week.",
+                  label: "Hours worked per week",
+                  value: hoursPerWeek,
+                  detail: "hours",
                 },
                 {
-                  title: "Enter working weeks",
-                  description:
-                    "Enter how many weeks you work during the year.",
-                },
-                {
-                  title: "Calculate the hourly rate",
-                  description:
-                    "Annual income is divided by your estimated annual working hours.",
+                  label: "Weeks worked per year",
+                  value: weeksPerYear,
+                  detail: "weeks",
                 },
               ],
-            },
 
-            formula: {
-              title: "Formula",
-              rows: [
+              results: [
                 {
-                  title: "Annual working hours",
-                  formula:
-                    "Hours per Week x Weeks per Year",
+                  label: "Hourly rate",
+                  value: result.hourlyRate.toFixed(2),
+                  detail: "per hour",
                 },
                 {
-                  title: "Hourly rate",
-                  formula:
-                    "Annual Income / Annual Working Hours",
+                  label: "Weekly income",
+                  value: result.weeklyIncome.toFixed(2),
+                  detail: "per week",
+                },
+                {
+                  label: "Monthly income",
+                  value: result.monthlyIncome.toFixed(2),
+                  detail: "per month",
+                },
+                {
+                  label: "Annual working hours",
+                  value: result.annualHours.toFixed(0),
+                  detail: "hours",
                 },
               ],
-            },
-          }}
-        />
-      ),
-    }
-  : null;
+
+              tutorial: {
+                title: "How to Calculate an Hourly Rate",
+                description:
+                  "Your hourly rate can be estimated by dividing annual income by total annual working hours.",
+
+                steps: [
+                  {
+                    title: "Enter your annual income",
+                    description:
+                      "Enter the total income you receive during one year.",
+                  },
+                  {
+                    title: "Enter weekly working hours",
+                    description:
+                      "Enter the number of hours you normally work each week.",
+                  },
+                  {
+                    title: "Enter working weeks",
+                    description:
+                      "Enter how many weeks you work during the year.",
+                  },
+                  {
+                    title: "Calculate the hourly rate",
+                    description:
+                      "Annual income is divided by your estimated annual working hours.",
+                  },
+                ],
+              },
+
+              formula: {
+                title: "Formula",
+                rows: [
+                  {
+                    title: "Annual working hours",
+                    formula: "Hours per Week x Weeks per Year",
+                  },
+                  {
+                    title: "Hourly rate",
+                    formula: "Annual Income / Annual Working Hours",
+                  },
+                ],
+              },
+            }}
+          />
+        ),
+      }
+    : null;
   return (
-  <>
-    <CalculatorPageShell
-      config={pageConfig}
-      result={calculatorResult}
-    >
-      <HourlyRateCalculatorForm
-        annualIncome={annualIncome}
-        onAnnualIncomeChange={setAnnualIncome}
-        hoursPerWeek={hoursPerWeek}
-        onHoursPerWeekChange={setHoursPerWeek}
-        weeksPerYear={weeksPerYear}
-        onWeeksPerYearChange={setWeeksPerYear}
-        error={error}
-        onSubmit={calculateHourlyRate}
-        onReset={resetCalculator}
-      />
-    </CalculatorPageShell>
-
-    
-  </>
-);
+    <>
+      <CalculatorPageShell config={pageConfig} result={calculatorResult}>
+        <HourlyRateCalculatorForm
+          annualIncome={annualIncome}
+          onAnnualIncomeChange={setAnnualIncome}
+          hoursPerWeek={hoursPerWeek}
+          onHoursPerWeekChange={setHoursPerWeek}
+          weeksPerYear={weeksPerYear}
+          onWeeksPerYearChange={setWeeksPerYear}
+          error={error}
+          onSubmit={calculateHourlyRate}
+          onReset={resetCalculator}
+        />
+      </CalculatorPageShell>
+    </>
+  );
 }

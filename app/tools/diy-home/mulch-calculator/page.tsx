@@ -9,6 +9,7 @@ import MulchCalculatorForm, {
   type MulchAreaUnit,
   type MulchDepthUnit,
 } from "./mulch-calculator-form";
+import DownloadPdfButton from "@/app/components/calculator/DownloadPdfButton";
 
 const pageConfig: CalculatorPageConfig = {
   title: "Mulch Calculator",
@@ -309,6 +310,90 @@ export default function MulchCalculatorPage() {
         ],
         note:
           "These results are estimates. Actual mulch requirements can vary because of uneven ground, settling, material density, and installation conditions.",
+        action: (
+          <DownloadPdfButton
+            data={{
+              title: "Mulch Calculator",
+              inputs: [
+                {
+                  label: "Area measurement unit",
+                  value: unit === "ft" ? "Feet" : "Meters",
+                },
+                { label: "Area length", value: areaLength, detail: unit },
+                { label: "Area width", value: areaWidth, detail: unit },
+                {
+                  label: "Mulch depth",
+                  value: depth,
+                  detail: depthUnit,
+                },
+                { label: "Waste allowance", value: waste, detail: "%" },
+              ],
+              results: [
+                {
+                  label: "Coverage area",
+                  value: result.area.toFixed(2),
+                  detail: unit === "ft" ? "square feet" : "square meters",
+                },
+                {
+                  label: "Base volume",
+                  value: result.baseVolume.toFixed(2),
+                  detail: volumeUnit,
+                },
+                {
+                  label: "Recommended quantity",
+                  value: result.volumeWithWaste.toFixed(2),
+                  detail: `${volumeUnit} including ${waste}% waste`,
+                },
+              ],
+              tutorial: {
+                title: "How to Calculate Mulch Requirements",
+                description:
+                  "Calculate the coverage area, convert the mulch depth to match the area unit, calculate the volume, and add an allowance for waste.",
+                steps: [
+                  {
+                    title: "Measure the area length",
+                    description:
+                      "Measure the longest straight distance across the area you want to cover.",
+                  },
+                  {
+                    title: "Measure the area width",
+                    description:
+                      "Measure the distance from one side of the area to the other using the same unit as the length.",
+                  },
+                  {
+                    title: "Choose the mulch depth",
+                    description:
+                      "Enter the depth in inches or centimeters. A depth of around 2 to 4 inches is common for many landscaping applications.",
+                  },
+                  {
+                    title: "Add waste",
+                    description:
+                      "Add extra material to account for uneven ground, settling, measurement differences, and material loss.",
+                  },
+                ],
+              },
+              formula: {
+                title: "Mulch Calculator Formula",
+                rows: [
+                  { title: "Area", formula: "Length × Width" },
+                  {
+                    title: "Convert depth",
+                    formula: "Inches ÷ 12 to feet; centimeters ÷ 100 to meters",
+                  },
+                  {
+                    title: "Volume",
+                    formula:
+                      "Area × Depth; convert cubic feet ÷ 27 to cubic yards",
+                  },
+                  {
+                    title: "Volume with waste",
+                    formula: "Base Volume × (1 + Waste % ÷ 100)",
+                  },
+                ],
+              },
+            }}
+          />
+        ),
       }
     : null;
 
